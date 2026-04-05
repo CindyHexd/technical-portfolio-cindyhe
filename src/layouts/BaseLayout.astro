@@ -2,8 +2,11 @@
 interface Props {
   title: string;
   description?: string;
+  /** neutral: professional shell (default). warm: playful fonts & cream (e.g. BearHugs). */
+  tone?: "neutral" | "warm";
 }
-const { title, description = "Technical portfolio" } = Astro.props;
+const { title, description = "Technical portfolio", tone = "neutral" } = Astro.props;
+const bodyClass = tone === "warm" ? "shell-warm" : "shell-neutral";
 ---
 
 <!doctype html>
@@ -12,16 +15,37 @@ const { title, description = "Technical portfolio" } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>" />
+    {
+      tone === "warm" ? (
+        <link
+          rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>"
+        />
+      ) : (
+        <link
+          rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2318181b'/><rect x='9' y='14' width='14' height='4' rx='1' fill='%23fafafa'/></svg>"
+        />
+      )
+    }
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    {
+      tone === "warm" ? (
+        <link
+          href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700&display=swap"
+          rel="stylesheet"
+        />
+      ) : (
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap"
+          rel="stylesheet"
+        />
+      )
+    }
     <title>{title}</title>
   </head>
-  <body>
+  <body class={bodyClass}>
     <slot />
   </body>
 </html>
@@ -35,8 +59,16 @@ const { title, description = "Technical portfolio" } = Astro.props;
   body {
     margin: 0;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+  body.shell-neutral {
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: #fafafa;
+    color: #171717;
+  }
+  body.shell-warm {
     font-family: Nunito, system-ui, sans-serif;
-    background: var(--cream, #fff8f0);
+    background: #fff8f0;
     color: #3d3545;
   }
 </style>

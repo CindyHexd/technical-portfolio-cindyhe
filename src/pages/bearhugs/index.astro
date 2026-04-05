@@ -7,6 +7,7 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
 <BaseLayout
   title="BearHugs — Heartbeat, anywhere"
   description="BearHugs: remote heartbeat sensing with sensor, Arduino, web UI, LED, and haptic feedback."
+  tone="warm"
 >
   <div class="page">
     <a class="back" href={`${import.meta.env.BASE_URL}`}>← Portfolio</a>
@@ -15,9 +16,9 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
       <div class="hero-text">
         <h1>BearHugs</h1>
         <p class="tagline">Feel your loved one’s heartbeat, anywhere.</p>
-        <p class="intro">
-          BearHugs connects a pulse sensor and Arduino to a live web experience — plus LED and motor output — so
-          presence can be felt across distance.
+        <p class="credit">
+          Created in the 2026 Cornell Maker Club Make-a-thon.
+          <span class="credit-team">Team (alphabetical order): Duke Gandin, Cindy He, Vivian Hu, Jack Zhou.</span>
         </p>
       </div>
       <div class="hero-art" aria-hidden="true">
@@ -95,9 +96,9 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
 
     <section class="demo-section">
       <div class="demo-header">
-        <h2>Interactive UI preview</h2>
+        <h2>Interactive UI demo</h2>
         <p>
-          This demo <strong>simulates</strong> a live stream (no hardware required). Drag the BPM slider or tap feelings
+          This demo <strong>simulates</strong> a live stream. Drag the BPM slider or tap feelings
           to see the interface respond.
         </p>
       </div>
@@ -148,9 +149,6 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
       </figure>
     </section>
 
-    <footer class="foot">
-      <p>BearHugs — hardware–software prototype. UI preview is simulated in-browser.</p>
-    </footer>
   </div>
 </BaseLayout>
 
@@ -210,11 +208,20 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     display: inline-block;
     margin: 0 0 1rem;
   }
-  .intro {
+  .credit {
     margin: 0;
     line-height: 1.6;
     color: var(--muted);
-    max-width: 36ch;
+    max-width: 42ch;
+    font-size: 0.95rem;
+  }
+  .credit strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+  .credit-team {
+    display: block;
+    margin-top: 0.5rem;
   }
   .hero-art {
     display: flex;
@@ -414,7 +421,6 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     margin: 0 0 1.25rem;
     line-height: 1.55;
     color: var(--muted);
-    max-width: 50ch;
   }
   .phone {
     max-width: 340px;

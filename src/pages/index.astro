@@ -3,80 +3,138 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="Cindy He — Portfolio" description="Technical portfolio and projects">
-  <main class="home">
-    <p class="eyebrow">Portfolio</p>
-    <h1>Cindy He</h1>
-    <p class="lede">Projects spanning hardware, software, and human-centered interaction.</p>
-    <ul class="projects">
-      <li>
-        <a class="card" href={`${import.meta.env.BASE_URL}bearhugs/`}>
-          <span class="card-title">BearHugs</span>
-          <span class="card-desc">Feel your loved one’s heartbeat, anywhere — sensor, Arduino, and web interface.</span>
-        </a>
-      </li>
-    </ul>
-  </main>
+  <div class="shell">
+    <header class="site-header">
+      <span class="site-name">Cindy He</span>
+    </header>
+
+    <main class="home">
+      <section class="intro">
+        <h1 class="headline">Technical portfolio</h1>
+        <p class="summary">
+          Hardware and software — selected project documentations.
+        </p>
+      </section>
+
+      <section class="work" aria-label="Projects">
+        <ul class="project-list">
+          <li>
+            <a class="project" href={`${import.meta.env.BASE_URL}bearhugs/`}>
+              <span class="project-name">BearHugs</span>
+              <span class="project-meta">Hardware · Web · HCI</span>
+              <span class="project-desc">
+                A pair of heartbeat sensors with web interface.
+              </span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="footer-note">&copy; {new Date().getFullYear()} Cindy He</p>
+    </footer>
+  </div>
 </BaseLayout>
 
 <style>
-  .home {
-    max-width: 40rem;
+  .shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 44rem;
     margin: 0 auto;
-    padding: clamp(2rem, 6vw, 4rem) 1.5rem;
+    padding: 0 1.5rem;
   }
-  .eyebrow {
-    font-family: Fredoka, Nunito, sans-serif;
+  .site-header {
+    padding: 1.5rem 0 1rem;
+    border-bottom: 1px solid #e4e4e7;
+  }
+  .site-name {
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    color: #b28dff;
-    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    color: #18181b;
   }
-  h1 {
-    font-family: Fredoka, Nunito, sans-serif;
-    font-weight: 700;
-    font-size: clamp(2rem, 5vw, 2.75rem);
+  .home {
+    flex: 1;
+    padding: 2.5rem 0 3rem;
+  }
+  .intro {
+    margin-bottom: 2.75rem;
+  }
+  .headline {
     margin: 0 0 0.75rem;
-    color: #ff9aa2;
+    font-size: clamp(1.625rem, 3.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    color: #09090b;
   }
-  .lede {
-    margin: 0 0 2rem;
-    font-size: 1.1rem;
-    line-height: 1.55;
-    color: #5c5366;
-  }
-  .projects {
-    list-style: none;
-    padding: 0;
+  .summary {
     margin: 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #52525b;
   }
-  .card {
+  .project-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .project {
     display: block;
-    padding: 1.25rem 1.5rem;
-    border-radius: 1.25rem;
-    background: #fff;
-    box-shadow: 0 8px 28px rgba(178, 141, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
-    border: 2px solid rgba(255, 154, 162, 0.35);
+    padding: 1.25rem 0;
+    border-top: 1px solid #e4e4e7;
     text-decoration: none;
     color: inherit;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.15s ease;
+    margin: 0 -0.75rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    border-radius: 0.25rem;
   }
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 14px 36px rgba(178, 141, 255, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+  .project:last-of-type {
+    border-bottom: 1px solid #e4e4e7;
   }
-  .card-title {
-    font-family: Fredoka, Nunito, sans-serif;
-    font-weight: 700;
-    font-size: 1.35rem;
-    color: #ff9aa2;
+  .project:hover {
+    background-color: #f4f4f5;
+  }
+  .project:focus-visible {
+    outline: 2px solid #18181b;
+    outline-offset: 2px;
+  }
+  .project-name {
     display: block;
-    margin-bottom: 0.35rem;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #18181b;
+    margin-bottom: 0.25rem;
   }
-  .card-desc {
-    font-size: 0.95rem;
+  .project-meta {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #71717a;
+    margin-bottom: 0.5rem;
+  }
+  .project-desc {
+    display: block;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: #52525b;
+    max-width: 42ch;
+  }
+  .site-footer {
+    padding: 1.5rem 0 2rem;
+    margin-top: auto;
+    border-top: 1px solid #e4e4e7;
+  }
+  .footer-note {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #a1a1aa;
     line-height: 1.5;
-    color: #5c5366;
   }
 </style>
