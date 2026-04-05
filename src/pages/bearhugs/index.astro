@@ -1,0 +1,777 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
+---
+
+<BaseLayout
+  title="BearHugs — Heartbeat, anywhere"
+  description="BearHugs: remote heartbeat sensing with sensor, Arduino, web UI, LED, and haptic feedback."
+>
+  <div class="page">
+    <a class="back" href={`${import.meta.env.BASE_URL}`}>← Portfolio</a>
+
+    <header class="hero">
+      <div class="hero-text">
+        <h1>BearHugs</h1>
+        <p class="tagline">Feel your loved one’s heartbeat, anywhere.</p>
+        <p class="intro">
+          BearHugs connects a pulse sensor and Arduino to a live web experience — plus LED and motor output — so
+          presence can be felt across distance.
+        </p>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="heart-wrap">
+          <span class="spark s1">✦</span>
+          <span class="spark s2">✦</span>
+          <span class="spark s3">✦</span>
+          <div class="hands" />
+          <div class="heart" />
+        </div>
+      </div>
+    </header>
+
+    <section class="panel-grid">
+      <article class="panel pink">
+        <h2>Use cases</h2>
+        <ul>
+          <li>Long-distance relationships</li>
+          <li>Family members staying in touch</li>
+          <li>Elderly care &amp; emotional support</li>
+        </ul>
+        <p class="note">
+          Research suggests heartbeat sound and rhythm can help reduce stress and anxiety — a small piece of calm when
+          someone can’t be in the room.
+        </p>
+      </article>
+      <article class="panel purple">
+        <h2>Future directions</h2>
+        <ul>
+          <li>Amplifier &amp; cleaner signal processing</li>
+          <li>Physical buttons for “touch” and emotion modes</li>
+          <li>Wireless links (no tethered USB)</li>
+          <li>Two-way send &amp; receive between partners</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="flow-section">
+      <h2>How it fits together</h2>
+      <p class="flow-lede">Signal flows from finger to microcontroller, then out to the web and physical feedback.</p>
+      <div class="flow" role="img" aria-label="System diagram: sensor to Arduino, then to website, LED, and motor">
+        <div class="flow-node sensor">
+          <span class="flow-icon">🫀</span>
+          <strong>Heartbeat sensor</strong>
+          <span class="flow-sub">IR sensing on finger</span>
+        </div>
+        <div class="flow-arrow" aria-hidden="true">→</div>
+        <div class="flow-node arduino">
+          <span class="flow-icon">⚙️</span>
+          <strong>Arduino Nano</strong>
+          <span class="flow-sub">Reads &amp; routes data</span>
+        </div>
+        <div class="flow-branch">
+          <div class="branch-line" />
+          <div class="outputs">
+            <div class="flow-node out web">
+              <span class="flow-icon">🌐</span>
+              <strong>Website</strong>
+              <span class="flow-sub">Live BPM &amp; waveform</span>
+            </div>
+            <div class="flow-node out led">
+              <span class="flow-icon">💡</span>
+              <strong>LED</strong>
+              <span class="flow-sub">Visual pulse</span>
+            </div>
+            <div class="flow-node out motor">
+              <span class="flow-icon">〰️</span>
+              <strong>DC motor</strong>
+              <span class="flow-sub">Haptic beat</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-section">
+      <div class="demo-header">
+        <h2>Interactive UI preview</h2>
+        <p>
+          This demo <strong>simulates</strong> a live stream (no hardware required). Drag the BPM slider or tap feelings
+          to see the interface respond.
+        </p>
+      </div>
+      <div class="phone">
+        <div class="phone-notch" aria-hidden="true" />
+        <div class="phone-inner">
+          <div class="app-top">
+            <span class="app-logo">BearHugs</span>
+            <span class="app-sub">You’re never far away</span>
+          </div>
+          <div class="partner">
+            <span class="partner-heart" aria-hidden="true">♥</span>
+            <div>
+              <span class="partner-label">Partner’s heartbeat</span>
+              <span class="partner-name">Alex</span>
+            </div>
+          </div>
+          <div class="vitals">
+            <div class="bpm-block">
+              <span id="bpm-value" class="bpm-num">72</span>
+              <span class="bpm-unit">BPM</span>
+            </div>
+            <div class="live-pill" title="Simulated live stream">
+              <span class="live-dot" id="live-dot" />
+              LIVE
+            </div>
+          </div>
+          <canvas id="ekg" width="320" height="120" aria-label="Simulated heartbeat waveform"></canvas>
+          <label class="bpm-slider-label" for="bpm-slider">Simulated heart rate</label>
+          <input type="range" id="bpm-slider" min="48" max="120" value="72" />
+          <p class="feel-title">Send your feeling</p>
+          <div class="feelings" id="feelings">
+            <button type="button" class="feel happy" data-feel="Happy">🌼 Happy</button>
+            <button type="button" class="feel sad" data-feel="Sad">🌧️ Sad</button>
+            <button type="button" class="feel anxious" data-feel="Anxious">🌀 Anxious</button>
+            <button type="button" class="feel angry" data-feel="Angry">🌶️ Angry</button>
+            <button type="button" class="feel peaceful" data-feel="Peaceful">🍃 Peaceful</button>
+          </div>
+          <p class="toast" id="toast" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="poster">
+      <h2>Project poster</h2>
+      <figure>
+        <img src={infographic} alt="BearHugs infographic: use cases, system diagram, and mobile UI mockup" loading="lazy" />
+      </figure>
+    </section>
+
+    <footer class="foot">
+      <p>BearHugs — hardware–software prototype. UI preview is simulated in-browser.</p>
+    </footer>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    --cream: #fff8f0;
+    --pink: #ff9aa2;
+    --pink-deep: #ff7a85;
+    --purple: #b28dff;
+    --blue: #b2cefe;
+    --yellow: #ffda77;
+    --text: #3d3545;
+    --muted: #5c5366;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.25rem 3rem;
+    color: var(--text);
+  }
+  .back {
+    display: inline-block;
+    font-weight: 600;
+    color: var(--purple);
+    text-decoration: none;
+    margin-bottom: 1.25rem;
+  }
+  .back:hover {
+    text-decoration: underline;
+  }
+  .hero {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  @media (min-width: 768px) {
+    .hero {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+  }
+  .hero h1 {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    color: var(--pink-deep);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 600;
+    font-size: 1.15rem;
+    color: var(--purple);
+    border: 2px dashed var(--purple);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    margin: 0 0 1rem;
+  }
+  .intro {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 36ch;
+  }
+  .hero-art {
+    display: flex;
+    justify-content: center;
+    min-height: 200px;
+  }
+  .heart-wrap {
+    position: relative;
+    width: 220px;
+    height: 200px;
+    animation: floaty 5s ease-in-out infinite;
+  }
+  @keyframes floaty {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+  .heart {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    width: 100px;
+    height: 90px;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    background: radial-gradient(circle at 30% 35%, #ffb3bc, var(--pink) 45%, #ff7a8a);
+    clip-path: path(
+      "M50,88 C10,55 0,35 22,18 C38,6 50,22 50,22 C50,22 62,6 78,18 C100,35 90,55 50,88 Z"
+    );
+    filter: drop-shadow(0 12px 20px rgba(255, 122, 133, 0.45));
+  }
+  .hands {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 140% 80% at 50% 100%, rgba(232, 212, 196, 0.95), transparent 55%);
+    border-radius: 50% 50% 45% 45% / 40% 40% 60% 60%;
+    transform: scale(1.15);
+    z-index: -1;
+  }
+  .spark {
+    position: absolute;
+    color: var(--yellow);
+    font-size: 1rem;
+    animation: twinkle 2.5s ease-in-out infinite;
+  }
+  .s1 {
+    top: 18%;
+    left: 12%;
+  }
+  .s2 {
+    top: 28%;
+    right: 8%;
+    animation-delay: 0.6s;
+  }
+  .s3 {
+    bottom: 22%;
+    left: 22%;
+    animation-delay: 1.1s;
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: scale(0.9);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+  .panel-grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 2.5rem;
+  }
+  @media (min-width: 700px) {
+    .panel-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .panel {
+    border-radius: 1.5rem;
+    padding: 1.35rem 1.5rem;
+    color: #fff;
+    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
+  }
+  .panel h2 {
+    font-family: Fredoka, Nunito, sans-serif;
+    margin: 0 0 0.75rem;
+    font-size: 1.35rem;
+  }
+  .panel ul {
+    margin: 0 0 0.75rem;
+    padding-left: 1.2rem;
+    line-height: 1.55;
+  }
+  .panel.pink {
+    background: linear-gradient(145deg, #ff9aa2, #ff7a8a);
+  }
+  .panel.purple {
+    background: linear-gradient(145deg, #c4a6ff, #b28dff);
+  }
+  .note {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.95;
+    line-height: 1.5;
+  }
+  .flow-section {
+    margin-bottom: 2.5rem;
+  }
+  .flow-section h2 {
+    font-family: Fredoka, Nunito, sans-serif;
+    color: var(--purple);
+    margin: 0 0 0.35rem;
+  }
+  .flow-lede {
+    margin: 0 0 1.25rem;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    border: 2px solid rgba(178, 141, 255, 0.25);
+    box-shadow: 0 8px 28px rgba(178, 141, 255, 0.1);
+  }
+  .flow-node {
+    background: var(--cream);
+    border-radius: 1rem;
+    padding: 0.85rem 1rem;
+    text-align: center;
+    min-width: 7.5rem;
+    border: 2px solid rgba(255, 154, 162, 0.35);
+  }
+  .flow-node strong {
+    display: block;
+    font-family: Fredoka, Nunito, sans-serif;
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+  }
+  .flow-sub {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .flow-icon {
+    font-size: 1.35rem;
+  }
+  .flow-arrow {
+    font-size: 1.5rem;
+    color: var(--purple);
+    font-weight: 700;
+  }
+  .flow-branch {
+    flex-basis: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .branch-line {
+    width: 3px;
+    height: 1.25rem;
+    background: linear-gradient(var(--purple), var(--pink));
+    border-radius: 2px;
+  }
+  .outputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+  .flow-node.out {
+    border-color: rgba(178, 206, 254, 0.8);
+    background: linear-gradient(180deg, #fff, #f3f6ff);
+  }
+  .demo-section {
+    margin-bottom: 2.5rem;
+  }
+  .demo-header h2 {
+    font-family: Fredoka, Nunito, sans-serif;
+    color: var(--purple);
+    margin: 0 0 0.5rem;
+  }
+  .demo-header p {
+    margin: 0 0 1.25rem;
+    line-height: 1.55;
+    color: var(--muted);
+    max-width: 50ch;
+  }
+  .phone {
+    max-width: 340px;
+    margin: 0 auto;
+    background: linear-gradient(160deg, #2d2640, #1a1528);
+    border-radius: 2.25rem;
+    padding: 0.65rem;
+    box-shadow: 0 24px 50px rgba(45, 38, 64, 0.35);
+  }
+  .phone-notch {
+    height: 22px;
+    margin: 0 auto 0.35rem;
+    width: 38%;
+    background: #0f0c18;
+    border-radius: 0 0 14px 14px;
+  }
+  .phone-inner {
+    background: var(--cream);
+    border-radius: 1.75rem;
+    padding: 1rem 1rem 1.25rem;
+  }
+  .app-top {
+    text-align: center;
+    margin-bottom: 0.75rem;
+  }
+  .app-logo {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--pink-deep);
+  }
+  .app-sub {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+  .partner {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.65rem 0.85rem;
+    background: #fff;
+    border-radius: 1rem;
+    border: 2px solid rgba(255, 154, 162, 0.35);
+    margin-bottom: 0.85rem;
+  }
+  .partner-heart {
+    color: var(--pink-deep);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+  .partner-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  .partner-name {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  .vitals {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.35rem;
+  }
+  .bpm-block {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+  .bpm-num {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: 2.75rem;
+    color: #e84d5b;
+    font-variant-numeric: tabular-nums;
+  }
+  .bpm-unit {
+    font-weight: 700;
+    color: var(--muted);
+    font-size: 1rem;
+  }
+  .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #2a7a4b;
+    background: rgba(74, 185, 120, 0.2);
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+  }
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3ecf7a;
+    box-shadow: 0 0 0 0 rgba(62, 207, 122, 0.6);
+    animation: pulse-dot 1.8s ease-out infinite;
+  }
+  @keyframes pulse-dot {
+    0% {
+      box-shadow: 0 0 0 0 rgba(62, 207, 122, 0.55);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(62, 207, 122, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(62, 207, 122, 0);
+    }
+  }
+  #ekg {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.75rem;
+    background: linear-gradient(180deg, #fffefb, #fff5f0);
+    border: 2px solid rgba(255, 154, 162, 0.25);
+    margin-bottom: 0.5rem;
+  }
+  .bpm-slider-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+  }
+  #bpm-slider {
+    width: 100%;
+    accent-color: var(--pink-deep);
+    margin-bottom: 1rem;
+  }
+  .feel-title {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+  }
+  .feelings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .feel {
+    font-family: Nunito, sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    border: none;
+    border-radius: 1rem;
+    padding: 0.65rem 0.5rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.08);
+  }
+  .feel:hover {
+    transform: translateY(-2px) scale(1.02);
+    filter: brightness(1.03);
+  }
+  .feel:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06);
+  }
+  .feel.happy {
+    background: var(--yellow);
+    color: #5c4a1a;
+  }
+  .feel.sad {
+    background: var(--blue);
+    color: #2f4a6f;
+  }
+  .feel.anxious {
+    background: #d4b8ff;
+    color: #3d2f55;
+  }
+  .feel.angry {
+    background: #ffb3b8;
+    color: #6b1f28;
+  }
+  .feel.peaceful {
+    background: #b8e8c8;
+    color: #234530;
+  }
+  .toast {
+    min-height: 1.25rem;
+    margin: 0.75rem 0 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--purple);
+    text-align: center;
+  }
+  .poster h2 {
+    font-family: Fredoka, Nunito, sans-serif;
+    color: var(--purple);
+    margin: 0 0 0.75rem;
+  }
+  .poster figure {
+    margin: 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 3px solid rgba(255, 154, 162, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+    background: #fff;
+  }
+  .poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+  }
+  .foot {
+    margin-top: 2rem;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    const canvas = document.getElementById("ekg");
+    const bpmEl = document.getElementById("bpm-value");
+    const slider = document.getElementById("bpm-slider");
+    const toast = document.getElementById("toast");
+    const liveDot = document.getElementById("live-dot");
+    if (!canvas || !canvas.getContext) return;
+    const ctx = canvas.getContext("2d");
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(280, Math.floor(rect.width));
+      const h = 120;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      canvas._w = w;
+      canvas._h = h;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    const samples = [];
+    let t = 0;
+    let bpm = 72;
+
+    function getBpm() {
+      return bpm;
+    }
+
+    function ekgSample(timeSec) {
+      const hz = getBpm() / 60;
+      const phase = (timeSec * hz) % 1;
+      let v = 0.02 * Math.sin(timeSec * 6.283 * 0.5);
+      v += 0.12 * Math.exp(-Math.pow((phase - 0.07) / 0.025, 2));
+      v += -0.08 * Math.exp(-Math.pow((phase - 0.11) / 0.018, 2));
+      v += 1.4 * Math.exp(-Math.pow((phase - 0.145) / 0.012, 2));
+      v += -0.18 * Math.exp(-Math.pow((phase - 0.165) / 0.02, 2));
+      v += 0.22 * Math.exp(-Math.pow((phase - 0.32) / 0.06, 2));
+      v += (Math.random() - 0.5) * 0.04;
+      return v;
+    }
+
+    let jitterT = 0;
+
+    function frame() {
+      const w = canvas._w;
+      const h = canvas._h;
+      if (w) {
+        t += 1 / 60;
+        samples.push(ekgSample(t));
+        if (samples.length > w) samples.shift();
+
+        ctx.fillStyle = "#fff9f5";
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = "rgba(255,154,162,0.25)";
+        ctx.lineWidth = 1;
+        for (let y = 0; y < h; y += 24) {
+          ctx.beginPath();
+          ctx.moveTo(0, y + 0.5);
+          ctx.lineTo(w, y + 0.5);
+          ctx.stroke();
+        }
+
+        const mid = h * 0.55;
+        const amp = h * 0.22;
+        ctx.beginPath();
+        ctx.strokeStyle = "#e84d5b";
+        ctx.lineWidth = 2.25;
+        ctx.lineJoin = "round";
+        for (let x = 0; x < samples.length; x++) {
+          const y = mid - samples[x] * amp;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        const glow = ctx.createLinearGradient(0, 0, w, 0);
+        glow.addColorStop(0, "rgba(255,255,255,0.85)");
+        glow.addColorStop(0.15, "rgba(255,255,255,0)");
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, w * 0.2, h);
+      }
+
+      jitterT += 1 / 60;
+      const jitter = Math.round(Math.sin(jitterT * 2.1) * 0.8 + (Math.random() - 0.5) * 0.6);
+      if (bpmEl) bpmEl.textContent = String(Math.max(40, Math.min(160, getBpm() + jitter)));
+
+      requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+
+    if (slider) {
+      slider.addEventListener("input", () => {
+        bpm = Number(slider.value);
+      });
+    }
+
+    const feelings = document.getElementById("feelings");
+    if (feelings && toast) {
+      feelings.addEventListener("click", (e) => {
+        const btn = e.target.closest("button[data-feel]");
+        if (!btn) return;
+        const label = btn.getAttribute("data-feel") || "";
+        toast.textContent = "Sent " + label.toLowerCase() + " to Alex ✓";
+        toast.style.animation = "none";
+        void toast.offsetWidth;
+        toast.style.animation = "bh-toast 0.5s ease";
+        if (liveDot) {
+          liveDot.style.animation = "none";
+          void liveDot.offsetWidth;
+          liveDot.style.animation = "pulse-dot 1.8s ease-out infinite";
+        }
+      });
+    }
+  })();
+</script>
+
+<style is:global>
+  @keyframes bh-toast {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Cindy He — Portfolio" description="Technical portfolio and projects">
+  <main class="home">
+    <p class="eyebrow">Portfolio</p>
+    <h1>Cindy He</h1>
+    <p class="lede">Projects spanning hardware, software, and human-centered interaction.</p>
+    <ul class="projects">
+      <li>
+        <a class="card" href={`${import.meta.env.BASE_URL}bearhugs/`}>
+          <span class="card-title">BearHugs</span>
+          <span class="card-desc">Feel your loved one’s heartbeat, anywhere — sensor, Arduino, and web interface.</span>
+        </a>
+      </li>
+    </ul>
+  </main>
+</BaseLayout>
+
+<style>
+  .home {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) 1.5rem;
+  }
+  .eyebrow {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    color: #b28dff;
+    margin: 0 0 0.5rem;
+  }
+  h1 {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin: 0 0 0.75rem;
+    color: #ff9aa2;
+  }
+  .lede {
+    margin: 0 0 2rem;
+    font-size: 1.1rem;
+    line-height: 1.55;
+    color: #5c5366;
+  }
+  .projects {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .card {
+    display: block;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1.25rem;
+    background: #fff;
+    box-shadow: 0 8px 28px rgba(178, 141, 255, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 2px solid rgba(255, 154, 162, 0.35);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 36px rgba(178, 141, 255, 0.18), 0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+  .card-title {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: #ff9aa2;
+    display: block;
+    margin-bottom: 0.35rem;
+  }
+  .card-desc {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #5c5366;
+  }
+</style>
