@@ -12,7 +12,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
       <section class="intro">
         <h1 class="headline">Technical portfolio</h1>
         <p class="summary">
-          Documentations for selected hardware and software projects.
+          Selected hardware, software, and UX projects — documentation and prototypes.
         </p>
       </section>
 
@@ -32,7 +32,16 @@ import BaseLayout from "../layouts/BaseLayout.astro";
               <span class="project-name">Strain Gauge Scale</span>
               <span class="project-meta">Hardware (ESP32) · Web</span>
               <span class="project-desc">
-                Strain-gauge prototype with HX711 and ESP32 for the Glimpse subteam of Cornell GreenClub.
+                Strain-gauge prototype with HX711 and ESP32 to obtain live food waste weight data from restaurants.
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="project" href={`${import.meta.env.BASE_URL}common-ground/`}>
+              <span class="project-name">CommonGround</span>
+              <span class="project-meta">Mobile UI (Figma)</span>
+              <span class="project-desc">
+                Story archive mobile app aimed to bridge generational gaps. 
               </span>
             </a>
           </li>
