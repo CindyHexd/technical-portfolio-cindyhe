@@ -4,9 +4,11 @@ interface Props {
   description?: string;
   /** neutral: professional shell (default). warm: playful fonts & cream (e.g. BearHugs). */
   tone?: "neutral" | "warm";
+  /** Extra body classes (e.g. page-specific theme). */
+  bodyClass?: string;
 }
-const { title, description = "Technical portfolio", tone = "neutral" } = Astro.props;
-const bodyClass = tone === "warm" ? "shell-warm" : "shell-neutral";
+const { title, description = "Technical portfolio", tone = "neutral", bodyClass } = Astro.props;
+const shellClass = tone === "warm" ? "shell-warm" : "shell-neutral";
 ---
 
 <!doctype html>
@@ -43,9 +45,10 @@ const bodyClass = tone === "warm" ? "shell-warm" : "shell-neutral";
         />
       )
     }
+    <slot name="head" />
     <title>{title}</title>
   </head>
-  <body class={bodyClass}>
+  <body class:list={[shellClass, bodyClass]}>
     <slot />
   </body>
 </html>

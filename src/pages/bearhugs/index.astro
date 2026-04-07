@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
+const systemDiagram = `${import.meta.env.BASE_URL}bearhugs/system-diagram.png`;
 ---
 
 <BaseLayout
@@ -17,7 +17,7 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
         <h1>BearHugs</h1>
         <p class="tagline">Feel your loved one’s heartbeat, anywhere.</p>
         <p class="credit">
-          Created in the 2026 Cornell Maker Club Make-a-thon.
+          Created in the 2026 Cornell Maker Club Make-a-thon (Feb 2026).
           <span class="credit-team">Team (alphabetical order): Duke Gandin, Cindy He, Vivian Hu, Jack Zhou.</span>
         </p>
       </div>
@@ -32,65 +32,38 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
       </div>
     </header>
 
-    <section class="panel-grid">
-      <article class="panel pink">
-        <h2>Use cases</h2>
-        <ul>
-          <li>Long-distance relationships</li>
-          <li>Family members staying in touch</li>
-          <li>Elderly care &amp; emotional support</li>
-        </ul>
-        <p class="note">
-          Research suggests heartbeat sound and rhythm can help reduce stress and anxiety — a small piece of calm when
-          someone can’t be in the room.
-        </p>
-      </article>
-      <article class="panel purple">
-        <h2>Future directions</h2>
-        <ul>
-          <li>Amplifier &amp; cleaner signal processing</li>
-          <li>Physical buttons for “touch” and emotion modes</li>
-          <li>Wireless links (no tethered USB)</li>
-          <li>Two-way send &amp; receive between partners</li>
-        </ul>
-      </article>
-    </section>
-
     <section class="flow-section">
       <h2>How it fits together</h2>
-      <p class="flow-lede">Signal flows from finger to microcontroller, then out to the web and physical feedback.</p>
-      <div class="flow" role="img" aria-label="System diagram: sensor to Arduino, then to website, LED, and motor">
-        <div class="flow-node sensor">
-          <span class="flow-icon">🫀</span>
-          <strong>Heartbeat sensor</strong>
-          <span class="flow-sub">IR sensing on finger</span>
-        </div>
-        <div class="flow-arrow" aria-hidden="true">→</div>
-        <div class="flow-node arduino">
-          <span class="flow-icon">⚙️</span>
-          <strong>Arduino Nano</strong>
-          <span class="flow-sub">Reads &amp; routes data</span>
-        </div>
-        <div class="flow-branch">
-          <div class="branch-line" />
-          <div class="outputs">
-            <div class="flow-node out web">
-              <span class="flow-icon">🌐</span>
-              <strong>Website</strong>
-              <span class="flow-sub">Live BPM &amp; waveform</span>
-            </div>
-            <div class="flow-node out led">
-              <span class="flow-icon">💡</span>
-              <strong>LED</strong>
-              <span class="flow-sub">Visual pulse</span>
-            </div>
-            <div class="flow-node out motor">
-              <span class="flow-icon">〰️</span>
-              <strong>DC motor</strong>
-              <span class="flow-sub">Haptic beat</span>
-            </div>
-          </div>
-        </div>
+      <p class="flow-lede">Signal flows from finger to microcontroller, then out to the web, LED, and motor.</p>
+      <figure class="flow-illustration">
+        <img
+          src={systemDiagram}
+          alt="BearHugs system diagram: wrist heartbeat sensor to Arduino Nano, then to the BearHugs website mockup and to a red LED and DC motor on a wrist"
+          loading="lazy"
+        />
+      </figure>
+      <div class="panel-grid panel-grid--after-flow">
+        <article class="panel pink">
+          <h2>Use cases</h2>
+          <ul>
+            <li>Long-distance relationships</li>
+            <li>Family members staying in touch</li>
+            <li>Elderly care &amp; emotional support</li>
+          </ul>
+          <p class="note">
+            Research suggests heartbeat sound and rhythm can help reduce stress and anxiety — a small piece of calm when
+            someone can’t be in the room.
+          </p>
+        </article>
+        <article class="panel purple">
+          <h2>Future directions</h2>
+          <ul>
+            <li>Amplifier &amp; cleaner signal processing</li>
+            <li>Physical buttons for “touch” and emotion modes</li>
+            <li>Wireless links (no tethered USB)</li>
+            <li>Two-way send &amp; receive between partners</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -140,13 +113,6 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
           <p class="toast" id="toast" role="status" aria-live="polite"></p>
         </div>
       </div>
-    </section>
-
-    <section class="poster">
-      <h2>Project poster</h2>
-      <figure>
-        <img src={infographic} alt="BearHugs infographic: use cases, system diagram, and mobile UI mockup" loading="lazy" />
-      </figure>
     </section>
 
   </div>
@@ -212,8 +178,8 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     margin: 0;
     line-height: 1.6;
     color: var(--muted);
-    max-width: 42ch;
     font-size: 0.95rem;
+    max-width: 50ch;
   }
   .credit strong {
     color: var(--text);
@@ -300,6 +266,10 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     gap: 1.25rem;
     margin-bottom: 2.5rem;
   }
+  .panel-grid--after-flow {
+    margin-top: 2rem;
+    margin-bottom: 0;
+  }
   @media (min-width: 700px) {
     .panel-grid {
       grid-template-columns: 1fr 1fr;
@@ -308,13 +278,14 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
   .panel {
     border-radius: 1.5rem;
     padding: 1.35rem 1.5rem;
-    color: #fff;
+    color: rgb(255, 244, 240);
     box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
   }
   .panel h2 {
     font-family: Fredoka, Nunito, sans-serif;
     margin: 0 0 0.75rem;
     font-size: 1.35rem;
+    color: inherit;
   }
   .panel ul {
     margin: 0 0 0.75rem;
@@ -336,7 +307,7 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
   .flow-section {
     margin-bottom: 2.5rem;
   }
-  .flow-section h2 {
+  .flow-section > h2 {
     font-family: Fredoka, Nunito, sans-serif;
     color: var(--purple);
     margin: 0 0 0.35rem;
@@ -346,68 +317,20 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     color: var(--muted);
     line-height: 1.55;
   }
-  .flow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.75rem;
-    justify-content: center;
-    padding: 1.5rem 1rem;
-    background: #fff;
+  .flow-illustration {
+    margin: 0;
+    padding: 0;
     border-radius: 1.5rem;
+    overflow: hidden;
     border: 2px solid rgba(178, 141, 255, 0.25);
     box-shadow: 0 8px 28px rgba(178, 141, 255, 0.1);
+    background: #fff;
   }
-  .flow-node {
-    background: var(--cream);
-    border-radius: 1rem;
-    padding: 0.85rem 1rem;
-    text-align: center;
-    min-width: 7.5rem;
-    border: 2px solid rgba(255, 154, 162, 0.35);
-  }
-  .flow-node strong {
+  .flow-illustration img {
     display: block;
-    font-family: Fredoka, Nunito, sans-serif;
-    font-size: 0.95rem;
-    margin-top: 0.25rem;
-  }
-  .flow-sub {
-    display: block;
-    font-size: 0.75rem;
-    color: var(--muted);
-    margin-top: 0.2rem;
-  }
-  .flow-icon {
-    font-size: 1.35rem;
-  }
-  .flow-arrow {
-    font-size: 1.5rem;
-    color: var(--purple);
-    font-weight: 700;
-  }
-  .flow-branch {
-    flex-basis: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .branch-line {
-    width: 3px;
-    height: 1.25rem;
-    background: linear-gradient(var(--purple), var(--pink));
-    border-radius: 2px;
-  }
-  .outputs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
-  }
-  .flow-node.out {
-    border-color: rgba(178, 206, 254, 0.8);
-    background: linear-gradient(180deg, #fff, #f3f6ff);
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
   }
   .demo-section {
     margin-bottom: 2.5rem;
@@ -619,25 +542,6 @@ const infographic = `${import.meta.env.BASE_URL}bearhugs/infographic.png`;
     font-weight: 600;
     color: var(--purple);
     text-align: center;
-  }
-  .poster h2 {
-    font-family: Fredoka, Nunito, sans-serif;
-    color: var(--purple);
-    margin: 0 0 0.75rem;
-  }
-  .poster figure {
-    margin: 0;
-    border-radius: 1.25rem;
-    overflow: hidden;
-    border: 3px solid rgba(255, 154, 162, 0.4);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
-    background: #fff;
-  }
-  .poster img {
-    display: block;
-    width: 100%;
-    height: auto;
-    vertical-align: middle;
   }
   .foot {
     margin-top: 2rem;

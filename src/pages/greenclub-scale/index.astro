@@ -1,0 +1,265 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const prototype = `${import.meta.env.BASE_URL}greenclub-scale/prototype.jpeg`;
+const casingCad = `${import.meta.env.BASE_URL}greenclub-scale/casing-cad.png`;
+const logo = `${import.meta.env.BASE_URL}greenclub-scale/greenclub-logo.png`;
+const wiringDiagram = `${import.meta.env.BASE_URL}greenclub-scale/wiring-diagrams.jpeg`;
+---
+
+<BaseLayout
+  title="Strain Gauge Scale — Cindy He"
+  description="Strain gauge scale prototype for Cornell GreenClub: HX711, ESP32, and enclosure design."
+  tone="warm"
+  bodyClass="gc-body"
+>
+  <div class="page">
+    <a class="back" href={`${import.meta.env.BASE_URL}`}>← Portfolio</a>
+
+    <header class="hero">
+      <div class="hero-text">
+        <h1>Strain Gauge Scale</h1>
+        <p class="tagline">Glimpse subteam, Cornell GreenClub</p>
+        <p class="meta-line">
+          <span>College of Agriculture and Life Sciences, Cornell University · Ithaca, NY</span>
+          <span class="meta-sep">·</span>
+        </p>
+      </div>
+      <div class="hero-art">
+        <img class="logo-mark" src={logo} width="120" height="120" alt="Cornell GreenClub" />
+      </div>
+    </header>
+
+    <section class="block">
+      <h2>How it fits together</h2>
+      <figure class="shot shot--diagram">
+        <img
+          src={wiringDiagram}
+          alt="System flow: strain gauge to HX711 module to ESP32 WROOM board, then Wi-Fi to a laptop showing a Glimpse website dashboard"
+          loading="lazy"
+        />
+      </figure>
+    </section>
+
+    <section class="block">
+      <h2>Bench prototype</h2>
+      <p class="lede">Strain gauge between casing, HX711, and ESP32 on the bench.</p>
+      <figure class="shot">
+        <img
+          src={prototype}
+          alt="Prototype scale with circular plates, strain gauge bar, HX711 module, and ESP32 dev board wired together on a bench"
+          loading="eager"
+        />
+      </figure>
+    </section>
+
+    <section class="block">
+      <h2>CAD</h2>
+      <p class="lede">
+        Casing supporting pocket and mounting modeled in Fusion 360.
+      </p>
+      <figure class="shot shot--cad">
+        <img
+          src={casingCad}
+          alt="Isometric CAD render of a circular dark base plate with a rectangular pocket and two small circular features for mounting"
+          loading="lazy"
+        />
+      </figure>
+    </section>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  body.gc-body.shell-warm {
+    background: linear-gradient(165deg, #d8f0e0 0%, #ecf8f0 38%, #f4fbf7 100%);
+  }
+</style>
+
+<style>
+  .page {
+    --cream: #f0faf3;
+    --leaf: #15803d;
+    --leaf-soft: #22c55e;
+    --mint: #86efac;
+    --text: #1e2932;
+    --muted: #4a5f56;
+    --tag: #166534;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 1.25rem 1.25rem 3rem;
+    color: var(--text);
+    background: transparent;
+  }
+  .back {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--leaf);
+    text-decoration: none;
+    margin-bottom: 1.25rem;
+    font-family: Nunito, system-ui, sans-serif;
+  }
+  .back:hover {
+    text-decoration: underline;
+  }
+  .hero {
+    display: grid;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2.25rem;
+  }
+  .hero-text {
+    min-width: 0;
+  }
+  @media (min-width: 768px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1.75rem 2.25rem;
+      align-items: center;
+    }
+    .hero-art {
+      justify-content: flex-start;
+      padding-left: 0.25rem;
+    }
+  }
+  .hero h1 {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 700;
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    color: var(--leaf);
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  .tagline {
+    font-family: Fredoka, Nunito, sans-serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--tag);
+    border: 2px dashed var(--mint);
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    display: inline-block;
+    margin: 0 0 1rem;
+  }
+  .intro {
+    margin: 0 0 1rem;
+    line-height: 1.6;
+    color: var(--muted);
+    font-family: Nunito, system-ui, sans-serif;
+    font-size: 1rem;
+  }
+  .meta-line {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--muted);
+    font-family: Nunito, system-ui, sans-serif;
+  }
+  .meta-sep {
+    margin: 0 0.35rem;
+    color: var(--mint);
+    font-weight: 700;
+  }
+  .hero-art {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .logo-mark {
+    width: min(7.5rem, 42vw);
+    height: auto;
+    max-width: 120px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 8px 28px rgba(22, 101, 52, 0.18);
+  }
+  .block {
+    margin-bottom: 2.5rem;
+  }
+  .block:last-child {
+    margin-bottom: 0;
+  }
+  .block h2 {
+    font-family: Fredoka, Nunito, sans-serif;
+    color: var(--leaf-soft);
+    margin: 0 0 0.5rem;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+  .block .lede {
+    margin: 0 0 1rem;
+    font-size: 0.98rem;
+    line-height: 1.55;
+    color: var(--muted);
+    font-family: Nunito, system-ui, sans-serif;
+  }
+  .shot {
+    margin: 0;
+    padding: 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 2px solid rgba(34, 197, 94, 0.35);
+    box-shadow: 0 8px 28px rgba(22, 101, 52, 0.1);
+    background: #fff;
+  }
+  .shot.shot--cad {
+    background: transparent;
+    box-shadow: none;
+    border-color: rgba(34, 197, 94, 0.28);
+  }
+  .shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    vertical-align: middle;
+  }
+  .fit-steps {
+    margin: 0 0 1.25rem;
+    padding-left: 1.35rem;
+    font-family: Nunito, system-ui, sans-serif;
+    line-height: 1.65;
+    color: var(--text);
+    font-size: 0.98rem;
+  }
+  .fit-steps li {
+    margin-bottom: 0.5rem;
+  }
+  .fit-steps li:last-child {
+    margin-bottom: 0;
+  }
+  .fit-steps li::marker {
+    color: var(--leaf-soft);
+    font-weight: 700;
+  }
+  .shot--diagram {
+    margin-top: 0.25rem;
+  }
+  .diagram-cap {
+    margin: 0;
+    padding: 0.65rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    color: var(--muted);
+    border-top: 1px solid #e8efe9;
+    background: #f8fbf9;
+    font-family: Nunito, system-ui, sans-serif;
+  }
+  .bullets {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-family: Nunito, system-ui, sans-serif;
+    line-height: 1.65;
+    color: var(--text);
+    font-size: 1rem;
+  }
+  .bullets li {
+    margin-bottom: 0.5rem;
+  }
+  .bullets li:last-child {
+    margin-bottom: 0;
+  }
+  .bullets li::marker {
+    color: var(--leaf-soft);
+  }
+</style>
