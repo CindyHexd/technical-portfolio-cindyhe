@@ -6,10 +6,26 @@ interface Props {
   tone?: "neutral" | "warm";
   /** Extra body classes (e.g. page-specific theme). */
   bodyClass?: string;
+  /** Tab icon: single emoji (overrides warm default 💗 when tone is warm). */
+  faviconEmoji?: string;
 }
-const { title, description = "Technical portfolio", tone = "neutral", bodyClass } = Astro.props;
+const { title, description = "Technical portfolio", tone = "neutral", bodyClass, faviconEmoji } =
+  Astro.props;
 const shellClass = tone === "warm" ? "shell-warm" : "shell-neutral";
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
+
+function emojiFaviconDataUrl(emoji: string) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">${emoji}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+const faviconOverride = faviconEmoji?.trim();
+const faviconHref =
+  faviconOverride != null && faviconOverride !== ""
+    ? emojiFaviconDataUrl(faviconOverride)
+    : tone === "warm"
+      ? emojiFaviconDataUrl("💗")
+      : "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2318181b'/><rect x='9' y='14' width='14' height='4' rx='1' fill='%23fafafa'/></svg>";
 ---
 
 <!doctype html>
@@ -18,19 +34,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "";
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    {
-      tone === "warm" ? (
-        <link
-          rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💗</text></svg>"
-        />
-      ) : (
-        <link
-          rel="icon"
-          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2318181b'/><rect x='9' y='14' width='14' height='4' rx='1' fill='%23fafafa'/></svg>"
-        />
-      )
-    }
+    <link rel="icon" href={faviconHref} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     {
